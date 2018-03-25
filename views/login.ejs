@@ -1,0 +1,13 @@
+<% include ./partials/header %>
+
+    <div class="container">
+        <h1>Login Form</h1>
+
+        <form class="form-inline" action="/login" method="POST">
+            <input class="form-control" type="text" placeholder="username" name="username">
+            <input class="form-control" type="password" placeholder="password" name="password">
+            <button class="btn btn-outline-success my-2 my-sm-0">Login</button>
+        </form>
+
+    </div>
+    <% include ./partials/footer %>
