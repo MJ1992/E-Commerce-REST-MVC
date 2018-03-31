@@ -3,7 +3,7 @@ var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
 var Product = require('../models/product');
-//var Cart = require('../models/cart');
+
 
 //show all products
 router.get('/', isLoggedIn, function(req, res) {
@@ -29,7 +29,7 @@ router.get('/new', isLoggedIn, function(req, res) {
     res.render('newProduct');
 });
 
-router.post('/', function(req, res) {
+router.post('/', isLoggedIn, function(req, res) {
     Product.create(req.body.product, function(err, product) {
         if (err) {
             console.log(err);
@@ -68,7 +68,7 @@ router.get('/:id/edit', isLoggedIn, function(req, res) {
 
 });
 
-router.put('/:id', function(req, res) {
+router.put('/:id', isLoggedIn, function(req, res) {
     Product.findByIdAndUpdate(req.params.id, req.body.product, function(err, updatedProd) {
         if (err) {
             console.log(err);

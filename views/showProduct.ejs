@@ -6,7 +6,7 @@
 
         <div class="card">
 
-            <img class="card-img-top img-responsive " src="<%=product.image%>" style="height: 400px; width: 100%" alt="Card image cap">
+            <img class="card-img-top img-responsive mx-auto" src="<%=product.image%>" style="max-height: 400px; max-width: 400px" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">
                     <%=product.name%>
@@ -20,6 +20,7 @@
                 </p>
                 <a href="addToCart/<%=product._id%>" class="btn btn-primary">Add to Cart</a>
                 <a href="<%=product._id%>/edit" class="btn btn-info">Edit this Product</a>
+                <a href="/products" class="btn btn-dark">Back</a>
                 <hr>
                 <form action="/products/<%= product._id%>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>

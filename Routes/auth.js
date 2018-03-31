@@ -223,6 +223,16 @@ router.post('/reset/:token', function(req, res) {
     });
 });
 
+//auth from google 
+router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+//
+router.get('/auth/google/cb', passport.authenticate('google', {
+    successRedirect: '/products',
+    failureRedirect: '/'
+}));
+
+
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
