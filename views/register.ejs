@@ -1,13 +1,35 @@
 <% include ./partials/header %>
     <div class="container">
-        <h1>Register Form</h1>
+
+
 
         <form action="/register" method="POST">
-            <input type="text" placeholder="username" name="username">
-            <input type="password" placeholder="password" name="password">
-            <input type="email" placeholder="email" name="email">
-            <input type="number" placeholder="Mobile No." name="mobile">
-            <button>Sign Up</button>
+            <div class="form-group">
+                <label for="username">User Name</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter User Name">
+
+            </div>
+            <div class="form-group">
+                <label for="Password1">Password</label>
+                <input type="password" class="form-control" id="Password1" name="password" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" class="form-control" id="Email" name="email" placeholder="Enter your Email">
+            </div>
+            <div class="form-group">
+                <label for="Mobile">Mobile No. </label>
+                <input type="number" class="form-control" id="Mobile" name="mobileNumber" placeholder="Enter your Mobile No.">
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+
+            <div class=" my-2">
+                <span class="">Already have an account? </span><a href="/login">Login!</a>
+
+            </div>
+
         </form>
 
     </div>

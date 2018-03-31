@@ -1,0 +1,34 @@
+<% include ./partials/header %>
+    <div class="container">
+        <h1 class="text-center">Add a new product </h1>
+
+        <form action="/products" method="POST">
+            <div class="form-group">
+                <label for="name">Product Name</label>
+                <input type="text" id='name' class="form-control" placeholder="Product Name" name="product[name]" </div>
+                <div class="form-group">
+                    <label for="description">Product Description</label>
+                    <input type="text" id='description' class="form-control" placeholder="description" name="product[description]" on %>">
+                </div>
+                <div class="form-group">
+                    <label for="url">Product Image Url</label>
+                    <input type="text" id='url' class="form-control" placeholder="image url" name="product[image]">
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+
+                    <input type="text" id='price' class="form-control" placeholder="Product Name" name="product[price]">
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-primary">Add Product</button>
+        </form>
+
+        </div>
+
+
+
+        <% include ./partials/footer %>

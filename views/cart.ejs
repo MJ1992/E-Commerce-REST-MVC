@@ -1,0 +1,85 @@
+<% include ./partials/header %>
+    <div class="container">
+        <div class="alert alert-light">
+            <h5>My Shopping Bag (
+                <%=currentUser.cart.totalQuantity %> items)</h5>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-8">
+                <%if(currentUser.cart.totalQuantity==0){ %>
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3>You cart is Empty</h3>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <%}else {%>
+
+                        <%  currentUser.cart.items.forEach(function(item){ %>
+                            <div class="row my-2">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row">
+
+                                            <div class="col-md-4 mr-0"><img class="img-responsive " src="<%=item.image%>" style="height: 200px; width: 100%" alt="Card image cap"></div>
+                                            <div class="col-md-8">
+                                                <div class="card border-light">
+
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">
+                                                            <%=item.name%>
+                                                        </h5>
+                                                        <p class="card-text">
+                                                            <%=item.description%>
+                                                        </p>
+                                                        <p class="card-text">
+                                                            <b>&#8377;<%=item.price%></b>
+
+                                                        </p>
+
+                                                        <a href="removeFromCart/<%=item._id%>" class="btn btn-primary">Remove from Cart</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%}) %>
+                                <%} %>
+            </div>
+            <div class="col-md-4 my-2">
+                <div class="card">
+
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Cart Details
+                        </h5>
+                        <p class="card-text"> <b>Total items :</b>
+                            <%=currentUser.cart.totalQuantity%>
+                        </p>
+                        <p class="card-text"> <b>Total Price : &#8377;</b>
+                            <%=currentUser.cart.totalPrice%>
+                        </p>
+                        <hr>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+    <% include ./partials/footer %>

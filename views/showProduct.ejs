@@ -1,0 +1,35 @@
+<% include ./partials/header %>
+
+    <div class="container">
+
+
+
+        <div class="card">
+
+            <img class="card-img-top img-responsive " src="<%=product.image%>" style="height: 400px; width: 100%" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <%=product.name%>
+                </h5>
+                <p class="card-text">
+                    <%=product.description%>
+                </p>
+                <p class="card-text">
+                    <b>&#8377;
+                                <%=product.price%></b>
+                </p>
+                <a href="addToCart/<%=product._id%>" class="btn btn-primary">Add to Cart</a>
+                <a href="<%=product._id%>/edit" class="btn btn-info">Edit this Product</a>
+                <hr>
+                <form action="/products/<%= product._id%>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger">Delete</button>
+
+                </form>
+
+            </div>
+        </div>
+
+
+
+    </div>
+    <% include ./partials/footer %>
