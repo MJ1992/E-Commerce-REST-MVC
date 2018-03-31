@@ -2,10 +2,11 @@ var express = require("express"),
     app = express(),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
+    path = require('path'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    User = require('./models/user'),
-    Product = require('./models/product'),
+    User = require('./app/models/user'),
+    Product = require('./app/models/product'),
     addDataToDB = require('./seeds'),
     LocalStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
@@ -17,8 +18,9 @@ var express = require("express"),
     methodOverride = require('method-override'),
     crypto = require('crypto');
 
-var authRoutes = require('./Routes/auth');
-var productRoutes = require('./Routes/product');
+var authRoutes = require('./app/controllers/auth');
+var productRoutes = require('./app/controllers/product');
+var cartRoutes = require('./app/controllers/cart');
 
 
 //Using application level middleware BodyParser
@@ -54,6 +56,7 @@ app.use(flash());
 
 
 app.set("view engine", "ejs");
+app.set('views', path.join(__dirname, '/app/views'));
 app.use(express.static('public'));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -105,6 +108,7 @@ app.use(function(req, res, next) {
 app.use(methodOverride('_method'));
 app.use('/', authRoutes);
 app.use('/products', productRoutes);
+app.use('/', cartRoutes);
 
 
 

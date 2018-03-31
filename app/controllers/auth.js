@@ -5,6 +5,7 @@ var User = require('../models/user');
 var async = require('async');
 var crypto = require('crypto');
 var nodemailer = require('nodemailer');
+var middlewareObj = require('../../middlewares/loginCheck');
 
 router.get('/', function(req, res) {
     res.render('home');
@@ -12,9 +13,6 @@ router.get('/', function(req, res) {
 });
 
 
-router.get('/secret', isLoggedIn, function(req, res) {
-    res.render('secret');
-});
 
 //show sign up form
 router.get('/register', function(req, res) {
@@ -226,23 +224,13 @@ router.post('/reset/:token', function(req, res) {
 //auth from google 
 router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
-//
+//Handling callback from google
 router.get('/auth/google/cb', passport.authenticate('google', {
     successRedirect: '/products',
     failureRedirect: '/'
 }));
 
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-
-    } else {
-        req.flash('error', 'Please login first!');
-        res.redirect('/login');
-    }
-
-}
 
 
 module.exports = router;

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Product = require('./models/product');
+var Product = require('./app/models/product');
 
 var data = [{
         name: "Ralph Lauren Men's Solid Casual Blue Shirt",

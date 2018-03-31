@@ -9,7 +9,7 @@
         <div class="row">
             <% products.forEach(function(product){ %>
                 <div class="card-deck col-md-4 col-sm-6  my-2 ml-2">
-                    <div class="card border-light">
+                    <div class="card ">
 
                         <img class="card-img-top img-responsive " src="<%=product.image%>" style="max-height: 400px; width: 100%" alt="Card image cap">
                         <div class="card-body">
@@ -23,8 +23,8 @@
                                 <b>&#8377;
                                     <%=product.price%></b>
                             </p>
-                            <a href="products/<%=product._id%>" class="btn btn-primary">View</a>
-                            <a href="products/addToCart/<%=product._id%>" class="btn btn-primary">Add to Cart</a>
+                            <a href="products/<%=product._id%>" class="btn btn-primary my-1">View</a>
+                            <a href="/addToCart/<%=product._id%>" class="btn btn-primary my-1">Add to Cart</a>
 
 
 
