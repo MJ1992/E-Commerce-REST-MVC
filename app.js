@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
 app.use(logger('dev'));
 //database conffiguration
 
-var dbPath = "mongodb://localhost/furniCart";
+var dbPath = "mongodb://localhost/FlopKart";
 
 //connect to database
 db = mongoose.connect(dbPath);
