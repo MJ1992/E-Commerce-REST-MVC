@@ -60,11 +60,12 @@ var data = [{
 
 //function to add data to db when server is restarted
 function dbData() {
+    //will remove data 
     Product.remove({}, function(err) {
         if (err) {
             console.log(err);
         }
-        //add products
+        //then add products
         data.forEach(function(product) {
             Product.create(product, function(err, product) {
                 if (err) {
