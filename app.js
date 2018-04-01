@@ -2,25 +2,19 @@ var express = require("express"),
     app = express(),
     bodyParser = require('body-parser'),
     cookieParser = require('cookie-parser'),
+    logger = require('morgan'),
     path = require('path'),
     mongoose = require('mongoose'),
     passport = require('passport'),
-    User = require('./app/models/user'),
-    Product = require('./app/models/product'),
     addDataToDB = require('./seeds'),
-    LocalStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    GoogleStrategy = require('passport-google-oauth2'),
     session = require('express-session'),
     async = require('async'),
     nodemailer = require('nodemailer'),
     flash = require('connect-flash'),
     methodOverride = require('method-override'),
-    crypto = require('crypto');
-
-var authRoutes = require('./app/controllers/auth');
-var productRoutes = require('./app/controllers/product');
-var cartRoutes = require('./app/controllers/cart');
+    crypto = require('crypto'),
+    fs = require('fs');
 
 
 //Using application level middleware BodyParser
@@ -33,15 +27,19 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+//logging 
+app.use(logger('dev'));
 //database conffiguration
 
-var dbPath = "mongodb://localhost/furCart";
+var dbPath = "mongodb://localhost/furniCart";
 
 //connect to database
 db = mongoose.connect(dbPath);
 mongoose.connection.once('open', function() {
     console.log("database Connection success");
 });
+
+
 
 addDataToDB(); //adding data from seeds.js file for products
 
@@ -54,48 +52,15 @@ app.use(session({
 //Express Messages
 app.use(flash());
 
-
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, '/app/views'));
 app.use(express.static('public'));
+
+//PassportJS setup
+require('./config/passport.js')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-//Local strategy for login
-passport.use(new LocalStrategy(User.authenticate()));
-
-//Google login strategy
-passport.use(new GoogleStrategy({
-    callbackURL: '/auth/google/cb',
-    clientID: '411136592953-s81vtdgt7mi8au1f408amosjio3f0tfo.apps.googleusercontent.com',
-    clientSecret: 'CwlilNCPhnU7BUz_3eGQiiyl'
-}, function(accessToken, refreshToken, profile, done) {
-    console.log(profile, done);
-    User.findOne({ 'email': profile.email }, function(err, user) {
-        if (err) {
-            return done(err);
-        }
-        if (user) {
-            return done(null, user);
-        } else {
-            var newUser = new User();
-            newUser.username = profile.email;
-            newUser.email = profile.email;
-
-
-            newUser.save(function(err) {
-                if (err) {
-                    throw err;
-                } else {
-                    return done(null, newUser);
-                }
-            });
-        }
-    });
-}));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 //App level middleware to flash messages and store current user from passportjs
 app.use(function(req, res, next) {
@@ -106,12 +71,39 @@ app.use(function(req, res, next) {
 });
 
 app.use(methodOverride('_method'));
-app.use('/', authRoutes);
-app.use('/products', productRoutes);
-app.use('/', cartRoutes);
+
+//reading model files and requiering them using file system 
+fs.readdirSync('./app/models').forEach(function(file) {
+    if (file.indexOf('.js')) {
+        require('./app/models/' + file);
+    }
+});
+
+//reading model files and requiering them using file system
+fs.readdirSync('./app/controllers').forEach(function(file) {
+    if (file.indexOf('.js')) {
+        var route = require('./app/controllers/' + file);
+        route.controller(app);
+
+    }
+});
 
 
+//App level middleware for error handling
+// Error handling middle-ware
 
+app.use(function(err, req, res, next) {
+
+    console.log(err.message);
+
+    res.status(422).send({ error: err.message });
+});
+
+//error handle middleware when user enter a wrong url
+
+app.use('*', function(req, res) {
+    res.status(404).render("error404");
+});
 
 
 
